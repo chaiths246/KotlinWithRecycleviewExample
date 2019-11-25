@@ -9,7 +9,7 @@ tools:context="com.example.chaithra.kotlinwithrecycleviewexample.MainActivity">
 
 <android.support.v7.widget.RecyclerView
 android:background="@android:color/holo_blue_light"
-    android:id="@+id/rv_animal_list"
+    android:id="@+id/rv_data_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
 

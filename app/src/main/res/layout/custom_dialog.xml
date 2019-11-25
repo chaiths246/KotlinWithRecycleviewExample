@@ -18,14 +18,17 @@
         android:orientation="horizontal"
         android:gravity="center">
         <Button
-            android:id="@+id/dialogLoginBtn"
+            android:id="@+id/addButton"
             android:text="add"
             style="@style/Base.Widget.AppCompat.Button.Colored"
+            android:background="@android:color/darker_gray"
             android:layout_width="wrap_content"
+            android:layout_marginRight="15dp"
             android:layout_height="wrap_content" />
         <Button
-            android:id="@+id/dialogCancelBtn"
+            android:id="@+id/cancelBtn"
             android:text="Cancel"
+            android:background="@android:color/darker_gray"
             style="@style/Base.Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

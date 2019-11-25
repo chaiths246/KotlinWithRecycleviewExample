@@ -1,7 +1,11 @@
 package com.example.chaithra.kotlinwithrecycleviewexample
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.preference.PreferenceManager
+import android.preference.PreferenceManager.getDefaultSharedPreferences
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
@@ -9,26 +13,32 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.custom_dialog.*
 import kotlinx.android.synthetic.main.custom_dialog.view.*
+import java.util.prefs.Preferences
+
 
 class MainActivity : AppCompatActivity() {
 
 
     val itmes: ArrayList<String> = ArrayList()
-
+    var item = ""
+    var prefs: SharedPreferences? = null
+    val PREFS_FILENAME = "com.teamtreehouse.colorsarefun.prefs"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         additems()
+        rv_data_list.layoutManager = LinearLayoutManager(this)
+        rv_data_list!!.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
+        rv_data_list.adapter = DataAdpter(itmes, this)
+        prefs = this.getSharedPreferences(PREFS_FILENAME, 0)
+        val item_name = prefs!!.getString("Item_name" ,"")
+           itmes.add(item_name);
+            rv_data_list.adapter!!.notifyDataSetChanged()
 
 
-        rv_animal_list.layoutManager = LinearLayoutManager(this)
-
-
-        rv_animal_list!!.addItemDecoration(DividerItemDecoration(this, LinearLayoutManager.VERTICAL))
-        rv_animal_list.adapter = DataAdpter(itmes, this)
 
     }
 
@@ -59,6 +69,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onAddClick() {
+
         //Inflate the dialog with custom view
         val mDialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
         //AlertDialogBuilder
@@ -70,10 +81,16 @@ class MainActivity : AppCompatActivity() {
 
         mDialogView.addButton.setOnClickListener {
 
-            val item = mDialogView.dialogNameEt.text.toString()
+            item = mDialogView.dialogNameEt.text.toString()
+
+
+            val editor = prefs!!.edit()
+            editor.putString("Item_name", item)
+            editor.apply()
+
             itmes.add(item)
 
-            rv_animal_list.adapter!!.notifyDataSetChanged()
+            rv_data_list.adapter!!.notifyDataSetChanged()
 
             mAlertDialog.dismiss();
 
@@ -85,6 +102,22 @@ class MainActivity : AppCompatActivity() {
             mAlertDialog.dismiss();
 
         }
+    }
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+
+        outState?.putCharSequence("savedText", item)
+
+    }
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+                // Log.i(TAG, "onRestoreInstanceState")
+
+        val userText = savedInstanceState?.getCharSequence("savedText")
+        itmes.add(""+userText)
+
+        rv_data_list.adapter!!.notifyDataSetChanged()
+
     }
 }
 
