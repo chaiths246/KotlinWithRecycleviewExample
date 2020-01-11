@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.data_list.view.*
 
 class DataAdpter(private val items : ArrayList<String>, val context: Context) : RecyclerView.Adapter<DataAdpter.ViewHolder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.data_list, p0, false))
     }
 
